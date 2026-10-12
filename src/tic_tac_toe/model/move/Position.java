@@ -1,4 +1,4 @@
-package tic_tac_toe.model.enums;
+package tic_tac_toe.model.move;
 
 import java.util.Objects;
 
@@ -11,12 +11,12 @@ public class Position {
         this.col = col;
     }
 
-    private int getRow() {
-        return this.row;
+    public int getRow() {
+        return row;
     }
 
-    private int getCol() {
-        return this.col;
+    public int getCol() {
+        return col;
     }
 
     @Override
