@@ -1,0 +1,35 @@
+package tic_tac_toe.model.strategy.winning;
+
+
+import tic_tac_toe.model.board.Board;
+import tic_tac_toe.model.enums.WinningConditionType;
+import tic_tac_toe.model.move.Position;
+import tic_tac_toe.model.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AntiDiagonalWinningStrategy implements WinningStrategy {
+
+    @Override
+    public List<WinningLine> findWinningLines(
+            Board board,
+            Player player) {
+
+        List<Position> positions = new ArrayList<>();
+        int size = board.getSize();
+
+        for (int row = 0; row < size; row++) {
+            int column = size - 1 - row;
+            Position position = new Position(row, column);
+
+            if (board.getPlayer(position) != player) {
+                return List.of();
+            }
+
+            positions.add(position);
+        }
+
+        return List.of(new WinningLine(WinningConditionType.ANTI_DIAGONAL, positions));
+    }
+}
