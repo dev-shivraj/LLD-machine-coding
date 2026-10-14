@@ -146,4 +146,8 @@ public class Game {
     public List<Player> getTurnOrder() {
         return turnOrder;
     }
+
+    public Set<WinningStrategy> getWinningStrategies() {
+        return winningStrategies;
+    }
 }
