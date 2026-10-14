@@ -106,4 +106,12 @@ public class Board {
 
         cells[position.getRow()][position.getCol()] = null;
     }
+
+    public void clear() {
+        for (int row = 0; row < size; row++) {
+            for (int column = 0; column < size; column++) {
+                cells[row][column] = null;
+            }
+        }
+    }
 }
