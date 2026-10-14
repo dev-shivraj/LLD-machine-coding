@@ -23,7 +23,7 @@ The process below should be followed for almost every LLD machine coding problem
 ```
 Problem Statement
        ↓
-Step 1: Overview / Understand
+Step 1: Overview / Understand / Alignment
        ↓
 Step 2: Gather MVP Requirements
        ↓
@@ -95,7 +95,7 @@ Order cancelled successfully
 
 ---
 
-## Step 1 — Overview / Understand
+## Step 1 — Overview / Understand / Alignment
 
 Before thinking about classes, understand what the system is supposed to do.
 
@@ -145,11 +145,11 @@ Identify MVP features. **Take ownership** rather than asking "what features shou
 
 1. Create parking lot
 2. Add parking spots
-3. Park vehicle
+3. Park practice.vehicle
 4. Find available spot
 5. Generate parking ticket
 6. Calculate parking fee
-7. Unpark vehicle
+7. Unpark practice.vehicle
 8. View parking availability
 
 Then confirm:
@@ -181,9 +181,9 @@ Focus on edge cases that affect the design — you don't need to cover every pos
 
 **Parking:**
 - What if the parking lot is full?
-- What if the vehicle is already parked?
+- What if the practice.vehicle is already parked?
 - What if no suitable spot exists?
-- What if an invalid vehicle is provided?
+- What if an invalid practice.vehicle is provided?
 
 **Payment:**
 - What if payment fails?
