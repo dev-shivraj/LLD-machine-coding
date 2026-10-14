@@ -94,7 +94,6 @@ public class Game {
     }
 
     public boolean undo() {
-
         if (result.getState() == GameState.NOT_STARTED) {
             throw new IllegalStateException("Cannot undo before the game starts");
         }
@@ -108,7 +107,7 @@ public class Game {
         rebuildBoard();
 
         result = new GameResult(GameState.IN_PROGRESS, null, List.of());
-        currentPlayerIndex = findNextPlayerIndex(lastMove.getPlayer());
+        currentPlayerIndex = turnOrder.indexOf(lastMove.getPlayer());
         return true;
     }
 
