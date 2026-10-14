@@ -1,7 +1,8 @@
 package practice.pen.entity;
 
-import practice.tic_tac_toe.pen.enums.PenType;
-import practice.tic_tac_toe.pen.strategy.OpeningMechanism;
+import practice.pen.enums.PenType;
+import practice.pen.strategy.OpeningMechanism;
+
 
 public class Pen {
 

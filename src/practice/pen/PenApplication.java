@@ -1,11 +1,11 @@
 package practice.pen;
 
-import practice.tic_tac_toe.pen.entity.Ink;
-import practice.tic_tac_toe.pen.entity.Pen;
-import practice.tic_tac_toe.pen.entity.Refill;
-import practice.tic_tac_toe.pen.enums.PenType;
-import practice.tic_tac_toe.pen.strategy.Cap;
-import practice.tic_tac_toe.pen.strategy.ClickButton;
+import practice.pen.entity.Ink;
+import practice.pen.entity.Pen;
+import practice.pen.entity.Refill;
+import practice.pen.enums.PenType;
+import practice.pen.strategy.Cap;
+import practice.pen.strategy.ClickButton;
 
 public class PenApplication {
 
