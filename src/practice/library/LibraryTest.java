@@ -1,7 +1,7 @@
-package library;
+package practice.library;
 
-import library.exceptions.BookNotFoundException;
-import library.exceptions.DuplicateBookException;
+import practice.library.exceptions.BookNotFoundException;
+import practice.library.exceptions.DuplicateBookException;
 
 import java.util.List;
 

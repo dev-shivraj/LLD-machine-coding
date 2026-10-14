@@ -4,7 +4,7 @@
 
 Design a simple Library Management System that manages a collection of logical books.
 
-The goal of this exercise is not to build a production-ready library system — it's to practice **LLD entity design and machine-coding thinking**:
+The goal of this exercise is not to build a production-ready practice.library system — it's to practice **LLD entity design and machine-coding thinking**:
 
 - Identify entities
 - Identify responsibilities
@@ -38,7 +38,7 @@ The goal of this exercise is not to build a production-ready library system — 
 
 ### 3.1 ISBN
 
-ISBN is the unique identifier of a logical book within the library: `ISBN → Book`.
+ISBN is the unique identifier of a logical book within the practice.library: `ISBN → Book`.
 
 - Two books cannot have the same ISBN.
 - A duplicate ISBN add is **rejected** — the existing book is not overwritten.
@@ -158,7 +158,7 @@ Title, on the other hand, may change:
 
 `Book` manages its own state — ISBN, title, author, publication year — and can perform operations on itself, e.g. `book.setTitle("Clean Code - Updated")`.
 
-`Book` should **not** know anything about the `Library`, the book collection, duplicate-ISBN checking, searching other books, or removing itself from the library.
+`Book` should **not** know anything about the `Library`, the book collection, duplicate-ISBN checking, searching other books, or removing itself from the practice.library.
 
 ---
 
@@ -250,7 +250,7 @@ Title search scans `booksByIsbn.values()`, converts each title to lowercase, and
 
 ```java
 Book book = new Book("123", "Clean Code", "Robert Martin", 2008);
-library.addBook(book);
+practice.library.addBook(book);
 // later:
 book.setTitle("Clean Code - Updated");
 ```
@@ -367,8 +367,8 @@ This is **not** modeled as strong composition — a `Book` can conceptually exis
 
 ```java
 Book book = new Book(...);
-Library library = new Library();
-library.addBook(book);   // the Book already existed before being added
+Library practice.library = new Library();
+practice.library.addBook(book);   // the Book already existed before being added
 ```
 
 ---
@@ -376,7 +376,7 @@ library.addBook(book);   // the Book already existed before being added
 ## 24. Final `Book` Implementation
 
 ```java
-package library;
+package practice.library;
 
 public class Book {
 
@@ -422,7 +422,7 @@ public class Book {
 ## 25–26. Custom Exceptions
 
 ```java
-package library;
+package practice.library;
 
 public class DuplicateBookException extends RuntimeException {
     public DuplicateBookException(String message) {
@@ -432,7 +432,7 @@ public class DuplicateBookException extends RuntimeException {
 ```
 
 ```java
-package library;
+package practice.library;
 
 public class BookNotFoundException extends RuntimeException {
     public BookNotFoundException(String message) {
@@ -446,7 +446,7 @@ public class BookNotFoundException extends RuntimeException {
 ## 27. Final `Library` Implementation
 
 ```java
-package library;
+package practice.library;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -516,7 +516,7 @@ public class Library {
 ## 28. Testing the Implementation
 
 ```java
-package library;
+package practice.library;
 
 import java.util.List;
 
@@ -524,7 +524,7 @@ public class LibraryTest {
 
     public static void main(String[] args) {
 
-        Library library = new Library();
+        Library practice.library = new Library();
 
         Book cleanCode = new Book(
                 "9780132350884", "Clean Code", "Robert C. Martin", 2008
@@ -537,17 +537,17 @@ public class LibraryTest {
         );
 
         // Add books
-        library.addBook(cleanCode);
-        library.addBook(effectiveJava);
-        library.addBook(cleanArchitecture);
+        practice.library.addBook(cleanCode);
+        practice.library.addBook(effectiveJava);
+        practice.library.addBook(cleanArchitecture);
         System.out.println("Books added successfully");
 
         // Search by ISBN
-        library.searchByIsbn("9780132350884")
+        practice.library.searchByIsbn("9780132350884")
                 .ifPresent(book -> System.out.println("ISBN Search: " + book.getTitle()));
 
         // Search by title
-        List<Book> cleanBooks = library.searchByTitle("CLEAN");
+        List<Book> cleanBooks = practice.library.searchByTitle("CLEAN");
         System.out.println("\nTitle Search:");
         for (Book book : cleanBooks) {
             System.out.println(book.getTitle());
@@ -555,7 +555,7 @@ public class LibraryTest {
 
         // List all books
         System.out.println("\nAll Books:");
-        for (Book book : library.listAllBooks()) {
+        for (Book book : practice.library.listAllBooks()) {
             System.out.println(book.getTitle() + " - " + book.getAuthor());
         }
 
@@ -564,7 +564,7 @@ public class LibraryTest {
         System.out.println("\nUpdated Title: " + cleanCode.getTitle());
 
         // Search after title update
-        List<Book> updatedSearch = library.searchByTitle("updated");
+        List<Book> updatedSearch = practice.library.searchByTitle("updated");
         System.out.println("\nSearch After Title Update:");
         for (Book book : updatedSearch) {
             System.out.println(book.getTitle());
@@ -575,23 +575,23 @@ public class LibraryTest {
             Book duplicateBook = new Book(
                     "9780132350884", "Another Book", "Some Author", 2025
             );
-            library.addBook(duplicateBook);
+            practice.library.addBook(duplicateBook);
         } catch (DuplicateBookException e) {
             System.out.println("\nDuplicate Test: " + e.getMessage());
         }
 
         // Remove book
-        library.removeBook("9780134685991");
+        practice.library.removeBook("9780134685991");
         System.out.println("\nBook removed successfully");
 
         // Verify removal
         System.out.println(
-                "Search after removal: " + library.searchByIsbn("9780134685991").isPresent()
+                "Search after removal: " + practice.library.searchByIsbn("9780134685991").isPresent()
         );
 
         // Remove non-existing book
         try {
-            library.removeBook("9999999999999");
+            practice.library.removeBook("9999999999999");
         } catch (BookNotFoundException e) {
             System.out.println("Remove Missing Book Test: " + e.getMessage());
         }

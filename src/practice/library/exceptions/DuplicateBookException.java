@@ -1,4 +1,4 @@
-package library.exceptions;
+package practice.library.exceptions;
 
 public class DuplicateBookException extends RuntimeException {
 

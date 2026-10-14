@@ -90,7 +90,7 @@ Search: 978013          →  no match (partial ISBNs don't match)
 
 **Example**
 
-Given the library contains:
+Given the practice.library contains:
 - Clean Code
 - Clean Architecture
 - Effective Java
@@ -107,11 +107,11 @@ Given the library contains:
 ### 3.5 List All Books
 
 **Rules**
-- Return all books currently present in the library.
+- Return all books currently present in the practice.library.
 - No particular ordering is required.
 - Insertion order does not need to be preserved.
 
-**Example:** if the library contains `Book A, Book B, Book C`, both `[A, B, C]` and `[C, A, B]` are valid results.
+**Example:** if the practice.library contains `Book A, Book B, Book C`, both `[A, B, C]` and `[C, A, B]` are valid results.
 
 ---
 
