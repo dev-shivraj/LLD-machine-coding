@@ -3,12 +3,15 @@ package tic_tac_toe.model.board;
 import tic_tac_toe.model.move.Position;
 import tic_tac_toe.model.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
     private final int size;
     private final Player cells[][];
 
     public Board(int size) {
-        if(size < 3) {
+        if (size < 3) {
             throw new IllegalArgumentException("Board size must be at least 3");
         }
 
@@ -21,7 +24,7 @@ public class Board {
     }
 
     public boolean isValidPosition(Position position) {
-        if(position == null) {
+        if (position == null) {
             return false;
         }
 
@@ -33,7 +36,7 @@ public class Board {
     }
 
     public boolean isEmpty(Position position) {
-        if(!isValidPosition(position)) {
+        if (!isValidPosition(position)) {
             return false;
         }
 
@@ -41,15 +44,15 @@ public class Board {
     }
 
     public void place(Player player, Position position) {
-        if(player == null) {
+        if (player == null) {
             throw new IllegalArgumentException("Player can not be null");
         }
 
-        if(!isValidPosition(position)) {
+        if (!isValidPosition(position)) {
             throw new IllegalArgumentException("Invalid board position");
         }
 
-        if(!isEmpty(position)) {
+        if (!isEmpty(position)) {
             throw new IllegalArgumentException("Position is already occupied");
         }
 
@@ -57,7 +60,7 @@ public class Board {
     }
 
     public Player getPlayer(Position position) {
-        if(!isValidPosition(position)) {
+        if (!isValidPosition(position)) {
             throw new IllegalArgumentException("Invalid board position");
         }
 
@@ -65,14 +68,42 @@ public class Board {
     }
 
     public boolean isFull() {
-        for(int row = 0; row < size; ++row) {
-            for(int col = 0; col < size; ++col) {
-                if(cells[row][col] == null) {
+        for (int row = 0; row < size; ++row) {
+            for (int col = 0; col < size; ++col) {
+                if (cells[row][col] == null) {
                     return false;
                 }
             }
         }
 
         return true;
+    }
+
+    public List<Position> getAvailablePositions() {
+        List<Position> positions = new ArrayList<>();
+
+        for (int row = 0; row < size; row++) {
+            for (int column = 0; column < size; column++) {
+                Position position = new Position(row, column);
+
+                if (isEmpty(position)) {
+                    positions.add(position);
+                }
+            }
+        }
+
+        return positions;
+    }
+
+    public void remove(Position position) {
+        if (!isValidPosition(position)) {
+            throw new IllegalArgumentException("Invalid board position");
+        }
+
+        if (isEmpty(position)) {
+            throw new IllegalArgumentException("Position is already empty");
+        }
+
+        cells[position.getRow()][position.getCol()] = null;
     }
 }
