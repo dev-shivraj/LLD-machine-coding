@@ -2,5 +2,5 @@ package com.machinecoding.bookmyshow.model.enums;
 
 public enum TheaterStatus {
     OPEN,
-    CLOSE
+    CLOSED
 }
