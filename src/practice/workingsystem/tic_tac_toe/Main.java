@@ -10,7 +10,6 @@ import practice.workingsystem.tic_tac_toe.model.strategy.bot.BotStrategy;
 import practice.workingsystem.tic_tac_toe.model.strategy.bot.MediumBotStrategy;
 import practice.workingsystem.tic_tac_toe.model.strategy.turn.RegistrationOrderStrategy;
 import practice.workingsystem.tic_tac_toe.model.strategy.turn.TurnOrderStrategy;
-import practice.tic_tac_toe.model.strategy.winning.*;
 import practice.workingsystem.tic_tac_toe.model.strategy.winning.*;
 import practice.workingsystem.tic_tac_toe.view.ConsoleView;
 

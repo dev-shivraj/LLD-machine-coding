@@ -6,7 +6,6 @@ import practice.workingsystem.tic_tac_toe.model.move.Position;
 import practice.workingsystem.tic_tac_toe.model.player.HumanPlayer;
 import practice.workingsystem.tic_tac_toe.model.player.Player;
 import practice.workingsystem.tic_tac_toe.model.strategy.turn.RegistrationOrderStrategy;
-import practice.tic_tac_toe.model.strategy.winning.*;
 import practice.workingsystem.tic_tac_toe.model.strategy.winning.*;
 
 import java.util.List;

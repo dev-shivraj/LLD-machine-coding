@@ -5,7 +5,6 @@ import practice.workingsystem.tic_tac_toe.model.enums.WinningConditionType;
 import practice.workingsystem.tic_tac_toe.model.move.Position;
 import practice.workingsystem.tic_tac_toe.model.player.BotPlayer;
 import practice.workingsystem.tic_tac_toe.model.player.Player;
-import practice.tic_tac_toe.model.strategy.winning.*;
 import practice.workingsystem.tic_tac_toe.model.strategy.winning.*;
 
 import java.util.List;
