@@ -46,8 +46,14 @@ public class Game {
         this.winner = null;
     }
 
+    public void start() {
+        while (gameStatus == GameStatus.IN_PROGRESS) {
+            playTurn();
+        }
+    }
+
     public void playTurn() {
-        if(gameStatus == GameStatus.FINISHED) {
+        if (gameStatus == GameStatus.FINISHED) {
             throw new IllegalArgumentException("The game has already finished");
         }
 
@@ -59,7 +65,7 @@ public class Game {
 
         System.out.println(currentPlayer.getName() + " rolled " + diceValue);
 
-        if(targetPosition > board.getSize()) {
+        if (targetPosition > board.getSize()) {
             System.out.println(currentPlayer.getName() + " cannot move because the roll overshoots " + board.getSize());
 
             advanceTurn();
