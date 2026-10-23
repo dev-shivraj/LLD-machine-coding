@@ -483,4 +483,3 @@ each method focused on one responsibility.
 - `Game` owns turn orchestration, while `Client` initializes and starts the game.
 - `StandardDice` supports random gameplay; `FixedDice` supports predictable demonstrations.
 - A separate orchestration class is unnecessary for our current scope.
-  lidated README
