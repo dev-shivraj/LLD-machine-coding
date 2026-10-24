@@ -3,10 +3,38 @@ package practice.workingsystem.snakeladder.client;
 import practice.workingsystem.snakeladder.*;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Client {
 
     public static void main(String[] args) {
+        // Create board, snakes, and ladders as before.
+        Board board = createBoard();
+        List<Player> players = List.of(
+                new Player("P1", "Alice"),
+                new Player("P2", "Bob")
+        );
+
+        Dice dice = new StandardDice();
+        Game game = new Game(board, players, dice);
+        Scanner scanner = new Scanner(System.in);
+        game.start();
+
+        while (game.gameStatus() == GameStatus.IN_PROGRESS) {
+            Player currentPlayer = game.getCurrentPlayer();
+            System.out.println("\n" + currentPlayer.getName() + "'s turn. Press Enter to roll the dice.");
+
+            scanner.nextLine();
+            game.playTurn();
+        }
+
+        System.out.println("\nGame Over!");
+        System.out.println("Winner: " + game.getWinner().getName());
+
+        scanner.close();
+    }
+
+    private static Board createBoard() {
         List<Snake> snakes = List.of(
                 new Snake(16, 6),
                 new Snake(47, 26),
@@ -21,25 +49,7 @@ public class Client {
                 new Ladder(63, 81)
         );
 
-        Board board = new Board(100, snakes, ladders);
-
-        List<Player> players = List.of(
-                new Player("P1", "Alice"),
-                new Player("P2", "Bob")
-        );
-
-        Dice dice = new StandardDice();
-
-        Game game = new Game(board, players, dice);
-
-        System.out.println("Starting Snake and Ladder!");
-
-        game.start();
-
-        System.out.println("\nGame Over!");
-
-        if (game.getWinner() != null) {
-            System.out.println("Winner: " + game.getWinner().getName());
-        }
+        return new Board(100, snakes, ladders);
     }
+
 }

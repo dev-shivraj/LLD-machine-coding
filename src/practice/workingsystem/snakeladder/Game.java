@@ -47,9 +47,11 @@ public class Game {
     }
 
     public void start() {
-        while (gameStatus == GameStatus.IN_PROGRESS) {
-            playTurn();
-        }
+//        while (gameStatus == GameStatus.IN_PROGRESS) {
+//            playTurn();
+//        }
+
+        System.out.println("Snake and Ladder game started!");
     }
 
     public void playTurn() {
