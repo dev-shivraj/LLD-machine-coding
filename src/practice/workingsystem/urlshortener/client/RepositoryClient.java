@@ -1,6 +1,6 @@
 package practice.workingsystem.urlshortener.client;
 
-import practice.workingsystem.urlshortener.UrlMapping;
+import practice.workingsystem.urlshortener.entity.UrlMapping;
 import practice.workingsystem.urlshortener.repositories.InMemoryUrlMappingRepository;
 import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
 

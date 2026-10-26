@@ -1,4 +1,4 @@
-package practice.workingsystem.urlshortener;
+package practice.workingsystem.urlshortener.strategy;
 
 public interface ShortCodeGenerator {
     String generate();

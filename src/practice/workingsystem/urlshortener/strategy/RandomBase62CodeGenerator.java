@@ -1,4 +1,4 @@
-package practice.workingsystem.urlshortener;
+package practice.workingsystem.urlshortener.strategy;
 
 import java.security.SecureRandom;
 import java.util.Objects;

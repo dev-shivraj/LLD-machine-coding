@@ -1,4 +1,4 @@
-package practice.workingsystem.urlshortener;
+package practice.workingsystem.urlshortener.entity;
 
 import java.time.Instant;
 import java.util.Objects;

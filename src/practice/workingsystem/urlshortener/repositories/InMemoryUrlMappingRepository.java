@@ -1,6 +1,6 @@
 package practice.workingsystem.urlshortener.repositories;
 
-import practice.workingsystem.urlshortener.UrlMapping;
+import practice.workingsystem.urlshortener.entity.UrlMapping;
 
 import java.util.HashMap;
 import java.util.Map;

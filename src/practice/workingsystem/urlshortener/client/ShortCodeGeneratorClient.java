@@ -1,7 +1,7 @@
 package practice.workingsystem.urlshortener.client;
 
-import practice.workingsystem.urlshortener.RandomBase62CodeGenerator;
-import practice.workingsystem.urlshortener.ShortCodeGenerator;
+import practice.workingsystem.urlshortener.strategy.RandomBase62CodeGenerator;
+import practice.workingsystem.urlshortener.strategy.ShortCodeGenerator;
 
 public class ShortCodeGeneratorClient {
 

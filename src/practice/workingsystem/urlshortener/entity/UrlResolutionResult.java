@@ -1,4 +1,6 @@
-package practice.workingsystem.urlshortener;
+package practice.workingsystem.urlshortener.entity;
+
+import practice.workingsystem.urlshortener.strategy.ResolutionStatus;
 
 import java.util.Objects;
 
