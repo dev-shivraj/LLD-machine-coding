@@ -1,7 +1,5 @@
 package practice.workingsystem.urlshortener.entity;
 
-import practice.workingsystem.urlshortener.strategy.ResolutionStatus;
-
 import java.util.Objects;
 
 public record UrlResolutionResult(ResolutionStatus status, String originalUrl) {

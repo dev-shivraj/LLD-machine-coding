@@ -5,6 +5,8 @@ import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
 import practice.workingsystem.urlshortener.service.*;
 import practice.workingsystem.urlshortener.strategy.RandomBase62CodeGenerator;
 import practice.workingsystem.urlshortener.strategy.ShortCodeGenerator;
+import practice.workingsystem.urlshortener.utils.AliasValidator;
+import practice.workingsystem.urlshortener.utils.UrlValidator;
 
 import java.time.Duration;
 import java.time.Instant;

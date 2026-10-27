@@ -4,6 +4,8 @@ import practice.workingsystem.urlshortener.entity.UrlMapping;
 import practice.workingsystem.urlshortener.entity.UrlResolutionResult;
 import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
 import practice.workingsystem.urlshortener.strategy.ShortCodeGenerator;
+import practice.workingsystem.urlshortener.utils.AliasValidator;
+import practice.workingsystem.urlshortener.utils.UrlValidator;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -29,7 +31,7 @@ public class UrlShortenerService {
             Clock clock, ClickAnalyticsService clickAnalyticsService
     ) {
         this.urlValidator = Objects.requireNonNull(urlValidator, "urlValidator cannot be null");
-        this.aliasValidator = Objects.requireNonNull(aliasValidator, "\"aliasValidator cannot be null\"");
+        this.aliasValidator = Objects.requireNonNull(aliasValidator, "aliasValidator cannot be null");
         this.codeGenerator = Objects.requireNonNull(codeGenerator, "codeGenerator cannot be null");
         this.repository = Objects.requireNonNull(repository, "repository cannot be null");
         this.clock = Objects.requireNonNull(clock, "clock cannot be null");

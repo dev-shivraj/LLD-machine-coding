@@ -649,11 +649,10 @@ dependencies described in earlier phases.
 ```java
 package practice.workingsystem.urlshortener;
 
-import practice.workingsystem.urlshortener.service.AliasValidator;
+import practice.workingsystem.urlshortener.utils.AliasValidator;
 import practice.workingsystem.urlshortener.service.ClickAnalyticsService;
 import practice.workingsystem.urlshortener.service.UrlShortenerService;
-import practice.workingsystem.urlshortener.service.UrlValidator;
-import practice.workingsystem.urlshortener.entity.UrlResolutionResult;
+import practice.workingsystem.urlshortener.utils.UrlValidator;
 import practice.workingsystem.urlshortener.repositories.InMemoryUrlMappingRepository;
 import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
 import practice.workingsystem.urlshortener.strategy.RandomBase62CodeGenerator;

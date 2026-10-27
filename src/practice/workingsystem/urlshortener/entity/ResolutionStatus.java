@@ -1,4 +1,4 @@
-package practice.workingsystem.urlshortener.strategy;
+package practice.workingsystem.urlshortener.entity;
 
 public enum ResolutionStatus {
     SUCCESS,

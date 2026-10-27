@@ -1,4 +1,4 @@
-package practice.workingsystem.urlshortener.service;
+package practice.workingsystem.urlshortener.utils;
 
 import java.util.Locale;
 import java.util.Objects;
