@@ -18,14 +18,17 @@ public class UrlShortenerService {
     private final UrlMappingRepository repository;
     private final Clock clock;
     private final ClickAnalyticsService clickAnalyticsService;
+    private final AliasValidator aliasValidator;
 
     public UrlShortenerService(
             UrlValidator urlValidator,
+            AliasValidator aliasValidator,
             ShortCodeGenerator codeGenerator,
             UrlMappingRepository repository,
             Clock clock, ClickAnalyticsService clickAnalyticsService
     ) {
         this.urlValidator = Objects.requireNonNull(urlValidator, "urlValidator cannot be null");
+        this.aliasValidator = Objects.requireNonNull(aliasValidator, "\"aliasValidator cannot be null\"");
         this.codeGenerator = Objects.requireNonNull(codeGenerator, "codeGenerator cannot be null");
         this.repository = Objects.requireNonNull(repository, "repository cannot be null");
         this.clock = Objects.requireNonNull(clock, "clock cannot be null");
@@ -76,5 +79,31 @@ public class UrlShortenerService {
         clickAnalyticsService.recordClick(shortCode);
 
         return UrlResolutionResult.success(mapping.getOriginalUrl());
+    }
+
+    public String shortenUrl(String originalUrl, String customAlias) {
+        if (!urlValidator.isValid(originalUrl)) {
+            throw new IllegalArgumentException("Invalid URL: " + originalUrl);
+        }
+
+        aliasValidator.validate(customAlias);
+
+        UrlMapping existingMapping = repository
+                .findByShortCode(customAlias)
+                .orElse(null);
+
+        if (existingMapping != null) {
+            if (!existingMapping.isExpired(clock.instant())) {
+                throw new IllegalArgumentException("Alias is already in use: " + customAlias);
+            }
+
+            repository.deleteByShortCode(customAlias);
+            clickAnalyticsService.deleteAnalytics(customAlias);
+        }
+
+        UrlMapping mapping = new UrlMapping(customAlias, originalUrl, clock.instant(), null);
+
+        repository.save(mapping);
+        return customAlias;
     }
 }

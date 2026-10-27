@@ -33,4 +33,9 @@ public class ClickAnalyticsService {
     public List<ClickEvent> getClickEvents(String shortCode) {
         return List.copyOf(eventsByShortCode.getOrDefault(shortCode, List.of()));
     }
+
+    public void deleteAnalytics(String shortCode) {
+        Objects.requireNonNull(shortCode, "shortCode cannot be null");
+        eventsByShortCode.remove(shortCode);
+    }
 }

@@ -4,6 +4,7 @@ import practice.workingsystem.urlshortener.entity.ClickEvent;
 import practice.workingsystem.urlshortener.entity.UrlResolutionResult;
 import practice.workingsystem.urlshortener.repositories.InMemoryUrlMappingRepository;
 import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
+import practice.workingsystem.urlshortener.service.AliasValidator;
 import practice.workingsystem.urlshortener.service.ClickAnalyticsService;
 import practice.workingsystem.urlshortener.service.UrlShortenerService;
 import practice.workingsystem.urlshortener.service.UrlValidator;
@@ -17,12 +18,14 @@ public class UrlShortenerClient {
     public static void main(String[] args) {
         Clock clock = Clock.systemUTC();
         UrlValidator urlValidator = new UrlValidator();
+        AliasValidator aliasValidator = new AliasValidator();
         ShortCodeGenerator codeGenerator = new RandomBase62CodeGenerator();
         UrlMappingRepository repository = new InMemoryUrlMappingRepository();
         ClickAnalyticsService analyticsService = new ClickAnalyticsService(clock);
 
         UrlShortenerService service = new UrlShortenerService(
                 urlValidator,
+                aliasValidator,
                 codeGenerator,
                 repository,
                 clock,
@@ -31,28 +34,28 @@ public class UrlShortenerClient {
 
         String originalUrl = "https://example.com/products/electronics";
 
-        // Shorten the URL.
-        String shortCode = service.shortenUrl(originalUrl);
-        System.out.println("Short code: " + shortCode);
+        // Generate a random short code.
+        String generatedCode = service.shortenUrl(originalUrl);
+        System.out.println("Generated short URL: https://short.ly/" + generatedCode);
 
-        // Resolve it three times.
-        for (int i = 1; i <= 3; i++) {
-            UrlResolutionResult result = service.resolveShortCode(shortCode);
-            System.out.println("Resolution " + i + ": " + result.status());
-        }
+        // Create a custom alias.
+        String customAlias = service.shortenUrl("https://example.com/products", "electronics");
+        System.out.println("Custom short URL: https://short.ly/" + customAlias);
 
-        // Attempt to resolve an unknown code.
-        UrlResolutionResult unknownResult = service.resolveShortCode("unknown123");
-        System.out.println("\nUnknown code status: " + unknownResult.status());
+        // Resolve the custom alias.
+        UrlResolutionResult result = service.resolveShortCode(customAlias);
+
+        System.out.println("Resolution status: " + result.status());
+        System.out.println("Original URL: " + result.originalUrl());
 
         // Display analytics.
-        System.out.println("\nTotal clicks: " + analyticsService.getClickCount(shortCode));
-        System.out.println("Click events:");
+        System.out.println("Custom alias clicks: " + analyticsService.getClickCount(customAlias));
 
-        for (ClickEvent event : analyticsService.getClickEvents(shortCode)) {
-            System.out.println(event.shortCode() + " -> " + event.timestamp());
+        // Demonstrate duplicate alias rejection.
+        try {
+            service.shortenUrl("https://example.com/another-product", "electronics");
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Duplicate alias rejected: " + exception.getMessage());
         }
-
-        System.out.println("\nUnknown code clicks: " + analyticsService.getClickCount("unknown123"));
     }
 }
