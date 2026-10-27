@@ -1,5 +1,6 @@
 package practice.workingsystem.urlshortener.client;
 
+import practice.workingsystem.urlshortener.entity.UrlResolutionResult;
 import practice.workingsystem.urlshortener.repositories.InMemoryUrlMappingRepository;
 import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
 import practice.workingsystem.urlshortener.service.UrlShortenerService;
@@ -22,7 +23,13 @@ public class UrlShortenerClient {
         System.out.println("Short code: " + shortCode);
         System.out.println("Short URL: https://short.ly/" + shortCode);
 
-        repository.findByShortCode(shortCode)
-                .ifPresent(mapping -> System.out.println("Stored original URL: " + mapping.getOriginalUrl()));
+        // Resolve the generated short code.
+        UrlResolutionResult result = service.resolveShortCode(shortCode);
+        System.out.println("\nResolution status: " + result.status());
+        System.out.println("Original URL: " + result.originalUrl());
+
+        // Resolve a code that does not exist.
+        UrlResolutionResult unknownResult = service.resolveShortCode("unknown123");
+        System.out.println("\nUnknown code status: " + unknownResult.status());
     }
 }

@@ -1,6 +1,7 @@
 package practice.workingsystem.urlshortener.service;
 
 import practice.workingsystem.urlshortener.entity.UrlMapping;
+import practice.workingsystem.urlshortener.entity.UrlResolutionResult;
 import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
 import practice.workingsystem.urlshortener.strategy.ShortCodeGenerator;
 
@@ -52,5 +53,24 @@ public class UrlShortenerService {
         }
 
         throw new IllegalStateException("Unable to generate a unique short code");
+    }
+
+    public UrlResolutionResult resolveShortCode(String shortCode) {
+        if (shortCode == null || shortCode.isBlank()) {
+            return UrlResolutionResult.unknown();
+        }
+
+        UrlMapping mapping = repository.findByShortCode(shortCode)
+                .orElse(null);
+
+        if (mapping == null) {
+            return UrlResolutionResult.unknown();
+        }
+
+        if (mapping.isExpired(clock.instant())) {
+            return UrlResolutionResult.expired();
+        }
+
+        return UrlResolutionResult.success(mapping.getOriginalUrl());
     }
 }
