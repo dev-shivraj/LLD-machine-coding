@@ -6,6 +6,7 @@ import practice.workingsystem.urlshortener.repositories.UrlMappingRepository;
 import practice.workingsystem.urlshortener.strategy.ShortCodeGenerator;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -36,13 +37,19 @@ public class UrlShortenerService {
     }
 
     public String shortenUrl(String originalUrl) {
+        return shortenUrl(originalUrl, (Duration) null);
+    }
+
+    public String shortenUrl(String originalUrl, Duration ttl) {
+
         if (!urlValidator.isValid(originalUrl)) {
             throw new IllegalArgumentException("Invalid URL: " + originalUrl);
         }
 
+        validateTtl(ttl);
+
         for (int attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt++) {
             String shortCode = codeGenerator.generate();
-
             if (shortCode == null || shortCode.isBlank()) {
                 throw new IllegalStateException("Code generator returned an invalid code");
             }
@@ -52,12 +59,59 @@ public class UrlShortenerService {
             }
 
             Instant createdAt = clock.instant();
-            UrlMapping mapping = new UrlMapping(shortCode, originalUrl, createdAt, null);
+            Instant expiresAt = ttl == null ? null : createdAt.plus(ttl);
+            UrlMapping mapping = new UrlMapping(shortCode, originalUrl, createdAt, expiresAt);
+
             repository.save(mapping);
             return shortCode;
         }
 
         throw new IllegalStateException("Unable to generate a unique short code");
+    }
+
+    public String shortenUrl(String originalUrl, String customAlias) {
+
+        return shortenUrl(originalUrl, customAlias, null);
+
+    }
+
+    public String shortenUrl(String originalUrl, String customAlias, Duration ttl) {
+
+        if (!urlValidator.isValid(originalUrl)) {
+            throw new IllegalArgumentException("Invalid URL: " + originalUrl);
+        }
+
+        aliasValidator.validate(customAlias);
+        validateTtl(ttl);
+
+        UrlMapping existingMapping = repository
+                .findByShortCode(customAlias)
+                .orElse(null);
+
+        if (existingMapping != null) {
+            if (!existingMapping.isExpired(clock.instant())) {
+                throw new IllegalArgumentException("Alias is already in use: " + customAlias);
+            }
+
+            repository.deleteByShortCode(customAlias);
+            clickAnalyticsService.deleteAnalytics(customAlias);
+        }
+
+        Instant createdAt = clock.instant();
+        Instant expiresAt = ttl == null
+                ? null
+                : createdAt.plus(ttl);
+
+        UrlMapping mapping = new UrlMapping(
+                customAlias,
+                originalUrl,
+                createdAt,
+                expiresAt
+        );
+
+        repository.save(mapping);
+        return customAlias;
+
     }
 
     public UrlResolutionResult resolveShortCode(String shortCode) {
@@ -81,29 +135,9 @@ public class UrlShortenerService {
         return UrlResolutionResult.success(mapping.getOriginalUrl());
     }
 
-    public String shortenUrl(String originalUrl, String customAlias) {
-        if (!urlValidator.isValid(originalUrl)) {
-            throw new IllegalArgumentException("Invalid URL: " + originalUrl);
+    private void validateTtl(Duration ttl) {
+        if (ttl != null && (ttl.isZero() || ttl.isNegative())) {
+            throw new IllegalArgumentException("TTL must be greater than zero");
         }
-
-        aliasValidator.validate(customAlias);
-
-        UrlMapping existingMapping = repository
-                .findByShortCode(customAlias)
-                .orElse(null);
-
-        if (existingMapping != null) {
-            if (!existingMapping.isExpired(clock.instant())) {
-                throw new IllegalArgumentException("Alias is already in use: " + customAlias);
-            }
-
-            repository.deleteByShortCode(customAlias);
-            clickAnalyticsService.deleteAnalytics(customAlias);
-        }
-
-        UrlMapping mapping = new UrlMapping(customAlias, originalUrl, clock.instant(), null);
-
-        repository.save(mapping);
-        return customAlias;
     }
 }
