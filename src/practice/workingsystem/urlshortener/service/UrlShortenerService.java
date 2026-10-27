@@ -17,17 +17,19 @@ public class UrlShortenerService {
     private final ShortCodeGenerator codeGenerator;
     private final UrlMappingRepository repository;
     private final Clock clock;
+    private final ClickAnalyticsService clickAnalyticsService;
 
     public UrlShortenerService(
             UrlValidator urlValidator,
             ShortCodeGenerator codeGenerator,
             UrlMappingRepository repository,
-            Clock clock
+            Clock clock, ClickAnalyticsService clickAnalyticsService
     ) {
         this.urlValidator = Objects.requireNonNull(urlValidator, "urlValidator cannot be null");
         this.codeGenerator = Objects.requireNonNull(codeGenerator, "codeGenerator cannot be null");
         this.repository = Objects.requireNonNull(repository, "repository cannot be null");
         this.clock = Objects.requireNonNull(clock, "clock cannot be null");
+        this.clickAnalyticsService = Objects.requireNonNull(clickAnalyticsService, "clickAnalyticsService cannot be null");
     }
 
     public String shortenUrl(String originalUrl) {
@@ -70,6 +72,8 @@ public class UrlShortenerService {
         if (mapping.isExpired(clock.instant())) {
             return UrlResolutionResult.expired();
         }
+
+        clickAnalyticsService.recordClick(shortCode);
 
         return UrlResolutionResult.success(mapping.getOriginalUrl());
     }
